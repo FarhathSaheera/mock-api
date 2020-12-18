@@ -1,0 +1,50 @@
+
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">  
+        <script src="https://code.jquery.com/jquery-3.5.1.min.js" crossorigin="anonymous"></script>
+        <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
+        <!-- <script src="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script> -->
+        <link rel="stylesheet" href="styles.css">
+        <script src="loginservice.js"> </script>
+
+
+    </head>
+    <body>
+        <div class="login-body">
+            <form onsubmit="login()" class="form">
+                <h1> Login </h1> <br /><br />
+                <input class="form-input" type="email" name="mail" id="mail" placeholder="Email" required
+                    autofocus></br></br>
+                <input class="form-input" type="password" name="pass" id="pass" placeholder="Password" required>
+                </br></br>
+                <input class="form-button" type="submit" value="Login">
+                <h4>New user? <a href="register.html">Register</a> </h4>
+            </form>
+        </div>
+
+        <script>
+            function login() {
+                event.preventDefault();
+                let email = document.querySelector("#mail").value;
+                let password = document.querySelector("#pass").value;
+                let obj = { "email": email, "password": password };
+                console.log(obj);
+                var loginserviceobj = new LoginService();
+                loginserviceobj.login(email, password);
+                var user = loginserviceobj.login(email, password);
+                if (user) {
+                    // toastr.success("Successfully Loggedin");
+                    alert("Signed In successfully");
+                }
+                else {
+                    alert("Invalid Login Credentials");
+                    // toastr.error("Invalid Login Credentials");
+                }
+            }
+        </script>
+
+
+    </body>
+</html>

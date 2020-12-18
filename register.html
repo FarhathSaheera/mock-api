@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MyMovieBooking</title>
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js"
+        crossorigin="anonymous"></script>
+        <link rel="stylesheet" href="styles.css">
+
+    <script src="registerservices.js"></script>
+
+</head>
+
+<body>
+
+    <div class="register-body">
+        <form action="#" method="POST" class="form" onsubmit="register()">
+            <h1>Registration form</h1><br /><br />
+            <input class="form-input" type="text" name="username" placeholder="Name" id="name" required autofocus>
+            <input class="form-input" type="email" name="email id" placeholder="Email ID" id="email"
+                pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$" required>
+            <input class="form-input" type="password" name="pass" id="password" required placeholder="Password">
+            <input class="form-input" type="date" value="" id="dob" placeholder="Date of Birth">
+            <div class="form-radio">
+                <label>Gender</label>
+                <span>
+                    <input class="form-input" type="radio" name="gender" value="m" id="m">Male</span>
+                <span>
+                    <input class="form-input" type="radio" name="gender" value="f" id="f">Female</span></div>
+            <input class="form-button" type="submit" value="Register">
+        </form>
+    </div>
+    <script>
+        var maxDate = new Date();
+        maxDate.setDate(maxDate.getDate());
+        var dd = maxDate.getDate();
+        var mm = maxDate.getMonth() + 1;
+        var yyyy = maxDate.getFullYear();
+        if (dd < 10) dd = '0' + dd;
+        if (mm < 10) mm = '0' + mm;
+        var maxD = yyyy + '-' + mm + '-' + dd;
+        console.log(maxD);
+        document.getElementById("dob").setAttribute("max", maxD);
+    </script>
+    <script>
+       
+        function register() {
+            event.preventDefault();
+            var Name = document.getElementById("name").value;
+            var email = document.getElementById("email").value;
+            var password = document.getElementById("password").value;
+            var DOB = document.getElementById("dob").value;
+            let genderOptions = document.getElementsByName("gender");
+            let gender = null;
+            for (let option of genderOptions) {
+                if (option.checked) {
+                    gender = option.value;
+                    break;
+                }
+            }
+
+            var userObj = { "name": Name, "email": email, "password": password, "dob": DOB, "gender": gender };
+            console.log(userObj);
+            var registerserviceObj = new RegisterService();
+            let result = registerserviceObj.register(userObj);
+            if (result == "success") {
+                alert("registered successfully");
+                window.location.href = "login.html";
+            }
+            else {
+                alert("registration failed");
+            }
+            var usersTemp = JSON.parse(localStorage.getItem("USERS"));
+            var users= usersTemp ? usersTemp:[];
+            users.push(userObj);
+            localStorage.setItem("USERS",JSON.stringify(users));
+        }
+    </script>
+</body>
+
+</html>
